@@ -4,8 +4,8 @@
 nodes = %w{node0 node1 node2}
 
 Vagrant.configure("2") do |config|
-  config.vm.box     = "precise64"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.box     = "puppet-precise64"
+  config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-1204-x64.box"
 
   config.vm.provider :virtualbox do |vb|
     modifyvm_args = ['modifyvm', :id]
@@ -15,7 +15,8 @@ Vagrant.configure("2") do |config|
     vb.customize(modifyvm_args)
   end
 
-  config.vm.provision :puppet do |puppet|
+  config.vm.provision :puppet,
+    :options => ["--debug", "--verbose", "--summarize", "--reports", "store"] do |puppet|
     puppet.manifest_file  = "site.pp"
     puppet.manifests_path = "manifests"
     puppet.module_path    = [ "modules", "vendor/modules" ]
