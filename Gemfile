@@ -4,9 +4,16 @@ source 'https://rubygems.org'
 # Travis will remove Gemfile.lock before installing deps. As such, it is
 # advisable to pin major versions in this Gemfile.
 
-# Puppet core.
-gem 'puppet', ENV['PUPPET_VERSION'] || '~> 3.6.1'
+# Puppet core. (Puppet and facter)
+# Ruby 2.1.x and perhaps others are incompatible with older versions of puppet
+if RUBY_VERSION >= "2.1"
+  gem 'puppet', ENV['PUPPET_VERSION'] || '~> 3.6.1'
+else
+  gem 'puppet', ENV['PUPPET_VERSION'] || '~> 3.1.0'
+end
+
 gem 'facter', ENV['FACTER_VERSION'] || '~> 1.6.0'
+
 
 # Dependency management.
 gem 'librarian-puppet'
